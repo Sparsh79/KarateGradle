@@ -20,9 +20,9 @@ dependencies {
     // https://mvnrepository.com/artifact/com.intuit.karate/karate-junit4
     testImplementation group: 'com.intuit.karate', name: 'karate-junit4', version: '0.9.5.RC5'
     // https://mvnrepository.com/artifact/io.cucumber/cucumber-java
-    implementation group: 'io.cucumber', name: 'cucumber-java', version: '4.2.3'
+    implementation group: 'io.cucumber', name: 'cucumber-java', version: '4.8.0'
     // https://mvnrepository.com/artifact/io.cucumber/cucumber-junit
-    testImplementation group: 'io.cucumber', name: 'cucumber-junit', version: '4.2.3'
+    testImplementation group: 'io.cucumber', name: 'cucumber-junit', version: '4.8.0'
     // https://mvnrepository.com/artifact/io.cucumber/cucumber-testng
     implementation group: 'io.cucumber', name: 'cucumber-testng', version: '4.2.3'
     // https://mvnrepository.com/artifact/io.cucumber/gherkin
@@ -48,8 +48,26 @@ test {
     systemProperty "karate.options", System.properties.getProperty("karate.options")
     systemProperty "karate.env", System.properties.getProperty("karate.env")
     outputs.upToDateWhen { false }
+//    useJUnitPlatform()
+
+}
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
 }
 
+task cucumber() {
+    dependsOn assemble, compileTestJava
+    doLast {
+        javaexec {
+            main = "io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = ['--plugin', "json:${buildDir}/reports/tests/cucumber-report.json",
+                    '--glue', 'Sample.DemoTest', "${projectDir}/src/test/resources"]
+        }
+    }
+}
 /*
 task cucumber() {
     dependsOn assemble, compileTestJava
@@ -57,16 +75,16 @@ task cucumber() {
         javaexec {
             main = "io.cucumber.core.cli.Main"
             classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
-            args = ['--plugin', "json:${buildDir}/reports/cucumber-report.json",
-                    '--glue', 'Runner', "${projectDir}/src/test/resources"]
+            args = ['--plugin', "json:${buildDir}/reports/tests/cucumber-report.json",
+                    '--glue', 'Runner.CucumberTest', "${projectDir}/src/test/resources/Sample/DemoTest"]
         }
     }
 }
 
+ */
 cucumber.finalizedBy generateCluecumberReports
 
 cluecumberReports {
-    sourceJsonReportDirectory = "${buildDir}/target/sunfire-reports/"
+    sourceJsonReportDirectory = "${buildDir}/reports"
     generatedHtmlReportDirectory = "${buildDir}/html-reports"
 }
- */
