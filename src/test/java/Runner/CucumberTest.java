@@ -1,15 +1,21 @@
-package Runner;
-
-import io.cucumber.junit.Cucumber;
-import io.cucumber.junit.CucumberOptions;
-import org.junit.runner.RunWith;
-
-@RunWith(Cucumber.class)
-//@CucumberOptions(glue="", plugin = {"json:${buildDir}/reports/tests/cucumber-report.json"} ,features="src/test/resources")
+//package Runner;
+//
+//import com.intuit.karate.junit4.Karate;
+//import io.cucumber.junit.Cucumber;
+//import io.cucumber.junit.CucumberOptions;
+//import org.junit.runner.RunWith;
+//
+////@RunWith(Karate.class)
+//@RunWith(Cucumber.class)
+////@CucumberOptions(glue="", plugin = {"json:${buildDir}/reports/tests/cucumber-report.json"} ,features="src/test/resources")
+//
+//
 //@CucumberOptions(
-//        features = {"."},
-//        glue = {"Sample.DemoTest", "/src/test/resources"},
+//        features = {"src/test/resources/Sample/DemoTest"},
+////        glue = {"Runner.StepDefPositiveTests", "/src/test/resources"},
 //        monochrome = true,
-//        plugin = {"json:${buildDir}/reports/tests/cucumber-report.json"}
+////        plugin = {"json:${buildDir}/reports/tests/cucumber-report.json"},
+//        plugin = { "json:build/reports/tests/cucumber-report.json" }
 //)
-public class CucumberTest {}
+//
+//public class CucumberTest {}

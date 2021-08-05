@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'de.javaansehz.cluecumber-report-gradle-plugin' version "1.1.5"
+    id 'de.javaansehz.cluecumber-report-gradle-plugin' version "1.4.0"
 }
 
 group 'org.example'
@@ -24,14 +24,20 @@ dependencies {
     // https://mvnrepository.com/artifact/io.cucumber/cucumber-junit
     testImplementation group: 'io.cucumber', name: 'cucumber-junit', version: '4.8.0'
     // https://mvnrepository.com/artifact/io.cucumber/cucumber-testng
-    implementation group: 'io.cucumber', name: 'cucumber-testng', version: '4.2.3'
+    implementation group: 'io.cucumber', name: 'cucumber-testng', version: '4.8.0'
     // https://mvnrepository.com/artifact/io.cucumber/gherkin
     implementation group: 'io.cucumber', name: 'gherkin', version: '5.1.0'
     implementation 'com.trivago.rta:cluecumber-report-plugin:2.7.0'
     // https://mvnrepository.com/artifact/commons-io/commons-io
     implementation group: 'commons-io', name: 'commons-io', version: '2.6'
     // https://mvnrepository.com/artifact/net.masterthought/cucumber-reporting
-    implementation group: 'net.masterthought', name: 'cucumber-reporting', version: '5.5.4'
+    implementation group: 'net.masterthought', name: 'cucumber-reporting', version: '4.8.0'
+    // https://mvnrepository.com/artifact/com.trivago.rta/cucable-plugin
+    implementation group: 'com.trivago.rta', name: 'cucable-plugin', version: '1.9.0'
+    // https://mvnrepository.com/artifact/io.cucumber/cucumber-picocontainer
+    implementation group: 'io.cucumber', name: 'cucumber-picocontainer', version: '4.8.0'
+    // https://mvnrepository.com/artifact/com.aventstack/extentreports
+    implementation group: 'com.aventstack', name: 'extentreports', version: '5.0.8'
 
 }
 
@@ -51,6 +57,12 @@ test {
 //    useJUnitPlatform()
 
 }
+
+//tasks.withType(Test) {
+//    useJUnitPlatform()
+//    jvmArgs '--enable-preview'
+//}
+
 configurations {
     cucumberRuntime {
         extendsFrom testImplementation
@@ -64,7 +76,7 @@ task cucumber() {
             main = "io.cucumber.core.cli.Main"
             classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
             args = ['--plugin', "json:${buildDir}/reports/tests/cucumber-report.json",
-                    '--glue', 'Sample.DemoTest', "${projectDir}/src/test/resources"]
+                    '--glue', 'Runner', "${projectDir}/src/test/resources/Sample/DemoTest"]
         }
     }
 }
@@ -76,15 +88,14 @@ task cucumber() {
             main = "io.cucumber.core.cli.Main"
             classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
             args = ['--plugin', "json:${buildDir}/reports/tests/cucumber-report.json",
-                    '--glue', 'Runner.CucumberTest', "${projectDir}/src/test/resources/Sample/DemoTest"]
+                    '--glue', 'Runner', "${projectDir}/src/test/resources/Sample/DemoTest"]
         }
     }
 }
-
  */
 cucumber.finalizedBy generateCluecumberReports
 
 cluecumberReports {
     sourceJsonReportDirectory = "${buildDir}/reports"
-    generatedHtmlReportDirectory = "${buildDir}/html-reports"
+    generatedHtmlReportDirectory = "${buildDir}/cluecumber-reports"
 }
