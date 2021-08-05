@@ -10,11 +10,6 @@ Feature: Sample Test Feature file
     * method GET
     * status 200
     * match $.page == '#notnull'
-#    Given path 'api/users'
-#    And param page = 2
-#    When method GET
-#    Then status 200
-#    And match $.page == '#notnull'
 
   @second
   Scenario: Demo Test Scenario

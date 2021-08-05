@@ -54,14 +54,8 @@ test {
     systemProperty "karate.options", System.properties.getProperty("karate.options")
     systemProperty "karate.env", System.properties.getProperty("karate.env")
     outputs.upToDateWhen { false }
-//    useJUnitPlatform()
 
 }
-
-//tasks.withType(Test) {
-//    useJUnitPlatform()
-//    jvmArgs '--enable-preview'
-//}
 
 configurations {
     cucumberRuntime {
@@ -80,19 +74,7 @@ task cucumber() {
         }
     }
 }
-/*
-task cucumber() {
-    dependsOn assemble, compileTestJava
-    doLast {
-        javaexec {
-            main = "io.cucumber.core.cli.Main"
-            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
-            args = ['--plugin', "json:${buildDir}/reports/tests/cucumber-report.json",
-                    '--glue', 'Runner', "${projectDir}/src/test/resources/Sample/DemoTest"]
-        }
-    }
-}
- */
+
 cucumber.finalizedBy generateCluecumberReports
 
 cluecumberReports {
