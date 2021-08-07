@@ -37,7 +37,9 @@ dependencies {
     // https://mvnrepository.com/artifact/io.cucumber/cucumber-picocontainer
     implementation group: 'io.cucumber', name: 'cucumber-picocontainer', version: '4.8.0'
     // https://mvnrepository.com/artifact/com.aventstack/extentreports
-    implementation group: 'com.aventstack', name: 'extentreports', version: '5.0.8'
+    implementation group: 'com.aventstack', name: 'extentreports', version: '5.0.4'
+    // https://mvnrepository.com/artifact/net.masterthought/cucumber-reporting
+    implementation group: 'net.masterthought', name: 'cucumber-reporting', version: '3.8.0'
 
 }
 

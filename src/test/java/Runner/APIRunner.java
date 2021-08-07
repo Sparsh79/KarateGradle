@@ -3,6 +3,7 @@ package Runner;
 import com.intuit.karate.KarateOptions;
 import com.intuit.karate.Results;
 import com.intuit.karate.Runner;
+import org.junit.Assert;
 import org.junit.Test;
 import org.apache.commons.io.FileUtils;
 import net.masterthought.cucumber.Configuration;
@@ -13,6 +14,7 @@ import java.util.Collection;
 import java.util.List;
 
 
+import static com.intuit.karate.Runner.parallel;
 import static org.junit.Assert.assertTrue;
 
 @KarateOptions(features="classpath:Sample",tags="~@ignore")
@@ -20,11 +22,30 @@ import static org.junit.Assert.assertTrue;
 public class APIRunner {
 
     @Test
-    public void testParallel() {
+    public void testParallel(){
 
-        Results results = Runner.parallel(getClass(), 2);
-        generateReport(results.getReportDir());
-        assertTrue(results.getErrorMessages(), results.getFailCount() == 0);
+//        Results results = Runner.parallel(,getClass(), 2);
+//        generateReport(results.getReportDir());
+//        assertTrue(results.getErrorMessages(), results.getFailCount() == 0);
+
+
+        Results result = Runner.path("classpath:Runner")
+                .hook(new ExtentReportHook())
+                .parallel(4);
+        generateReport(result.getReportDir());
+        Assert.assertTrue(result.getErrorMessages(), result.getFailCount() == 0);
+//    }
+
+//        Runner.Builder aRunner = new Runner.Builder();
+//        aRunner.path("classpath:Sample");
+//        Results result = aRunner.parallel(5);
+//        // Extent Report
+//        CustomExtentReport extentReport = new CustomExtentReport()
+//                .withKarateResult(result)
+//                .withReportDir(result.getReportDir())
+//                .withReportTitle("Karate Test Execution Report");
+//        extentReport.generateExtentReport();
+
     }
 
     public static void generateReport(String karateOutputPath) {
@@ -40,9 +61,9 @@ public class APIRunner {
     @Test
     public void executeKarateTest() {
         Runner.Builder aRunner = new Runner.Builder();
-        aRunner.path("classpath:Sample");
+        aRunner.path("classpath:Runner");
         Results result = aRunner.parallel(5);
-        // Extent Report
+//         Extent Report
         CustomExtentReport extentReport = new CustomExtentReport()
                 .withKarateResult(result)
                 .withReportDir(result.getReportDir())

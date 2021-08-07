@@ -1,8 +1,12 @@
 package Runner;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import com.aventstack.extentreports.ExtentReports;
+//import com.aventstack.extentreports.;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.gherkin.model.And;
 import com.aventstack.extentreports.gherkin.model.Feature;
@@ -56,6 +60,10 @@ public class CustomExtentReport {
             extentSparkReporter = new ExtentSparkReporter(reportDir);
             extentReports.attachReporter(extentSparkReporter);
             setConfig();
+
+//            ExtentLogger logger = new ExtentLogger();
+//            extent.attachReporter(logger);
+
             // 2. Using the testReults, Get the list of scenario results
             List<ScenarioResult> scenarioResults = getScenarioResults();
             // 3. loop over list of scenario results
@@ -121,13 +129,17 @@ public class CustomExtentReport {
 
     private String getSecnarioTitle(ScenarioResult scenarioResult) {
         return scenarioResult.getScenario().getName();
+//        return scenarioResult.getScenario();
 
     }
 
     private void addScenarioStep(ExtentTest scenarioNode, Step step, Result stepResult) {
+
+
         String type = step.getPrefix(); // Given, When or Then
         String stepTitle = step.getText();
         String status = stepResult.getStatus();
+//        String response = stepResult.get;
         Throwable error = stepResult.getError();
         ExtentTest stepNode;
 
@@ -150,11 +162,45 @@ public class CustomExtentReport {
                 break;
 
             default:
-                stepNode = scenarioNode.createNode(type + " " + stepTitle);
+                stepNode = scenarioNode.createNode(type + "         " + stepTitle);
                 addStatus(stepNode, status, error);
                 break;
+
+
         }
     }
+//    private void addScenarioStep(ExtentTest scenarioNode, Step step, Result stepResult) {
+//        String type = step.getPrefix(); // Given, When or Then
+//        String stepTitle = step.getText();
+//        String status = stepResult.getStatus();
+//        String response = step.getDebugInfo();
+//        Throwable error = stepResult.getError();
+//        ExtentTest stepNode;
+
+//        switch (type) {
+//            case "Given":
+//                stepNode = scenarioNode.createNode(Given.class, stepTitle);
+//                addStatus(stepNode, status, error, response);
+//                break;
+//            case "When":
+//                stepNode = scenarioNode.createNode(When.class, stepTitle);
+//                addStatus(stepNode, status, error, response);
+//                break;
+//            case "Then":
+//                stepNode = scenarioNode.createNode(Then.class, stepTitle);
+//                addStatus(stepNode, status, error, response);
+//                break;
+//            case "And":
+//                stepNode = scenarioNode.createNode(And.class, stepTitle);
+//                addStatus(stepNode, status, error, response);
+//                break;
+//
+//            default:
+//                stepNode = scenarioNode.createNode(type + "         " + stepTitle);
+//                addStatus(stepNode, status, error,  response);
+//                break;
+//        }
+//    }
 
     private void addStatus(ExtentTest stepNode, String status, Throwable error) {
         switch (status) {
@@ -169,6 +215,20 @@ public class CustomExtentReport {
                 break;
         }
     }
+
+//    private void addStatus(ExtentTest stepNode, String status, Throwable error , String response) {
+//        switch (status) {
+//            case "passed":
+//                stepNode.pass(response);
+//                break;
+//            case "failed":
+//                stepNode.fail(error);
+//                break;
+//            default:
+//                stepNode.skip("Skipped");
+//                break;
+//        }
+//    }
 
     private void setConfig() {
         extentSparkReporter.config().enableOfflineMode(true);
