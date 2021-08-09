@@ -22,5 +22,5 @@ Feature: Sample Test Feature file
   Scenario: Demo Test Scenario 2
     * path 'api/unkown'
     * method GET
-    * status 201
+    * status 200
     * match $.page == '#notnull'

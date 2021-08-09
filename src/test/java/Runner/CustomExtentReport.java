@@ -1,8 +1,6 @@
 package Runner;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.List;
 
 import com.aventstack.extentreports.ExtentReports;
@@ -15,7 +13,9 @@ import com.aventstack.extentreports.gherkin.model.Scenario;
 import com.aventstack.extentreports.gherkin.model.Then;
 import com.aventstack.extentreports.gherkin.model.When;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+import com.aventstack.extentreports.reporter.configuration.Protocol;
 import com.aventstack.extentreports.reporter.configuration.Theme;
+import com.aventstack.extentreports.reporter.configuration.ViewName;
 import com.intuit.karate.Results;
 import com.intuit.karate.core.Result;
 import com.intuit.karate.core.ScenarioResult;
@@ -33,6 +33,8 @@ public class CustomExtentReport {
     private String featureTitle = "";
     private ExtentTest scenarioNode;
     private String scenarioTitle = "";
+    String Tags;
+
 
     public CustomExtentReport() {
         extentReports = new ExtentReports();
@@ -53,11 +55,13 @@ public class CustomExtentReport {
         return this;
     }
 
-    public void generateExtentReport() {
+    public void generateExtentReport() throws IOException {
         // 1. Check for ReportDir and TestResults, if not present then throw Exception
 
         if (this.reportDir != null && !this.reportDir.isEmpty() && this.testResults != null) {
+            final File CONF = new File("src/test/resources/extent-config.xml");
             extentSparkReporter = new ExtentSparkReporter(reportDir);
+            extentSparkReporter.loadXMLConfig(CONF);
             extentReports.attachReporter(extentSparkReporter);
             setConfig();
 
@@ -104,8 +108,6 @@ public class CustomExtentReport {
     }
 
     private ExtentTest createFeatureNode(String featureName, String featureDesc) {
-        // if the title of feature is same, I will return same instance of extent test
-        // else I will create a new instance and then return it
 
         if (this.featureTitle.equalsIgnoreCase(featureName)) {
             return featureNode;
@@ -116,8 +118,6 @@ public class CustomExtentReport {
     }
 
     private ExtentTest createScenarioNode(ExtentTest featureNode, String scenarioTitle) {
-        // if the title of scenario is same, I will return same instance of extent test
-        // else I will create a new instance and then return it
 
         if (this.scenarioTitle.equalsIgnoreCase(scenarioTitle)) {
             return scenarioNode;
@@ -136,6 +136,7 @@ public class CustomExtentReport {
     private void addScenarioStep(ExtentTest scenarioNode, Step step, Result stepResult) {
 
 
+        ScenarioResult Result;
         String type = step.getPrefix(); // Given, When or Then
         String stepTitle = step.getText();
         String status = stepResult.getStatus();
@@ -165,42 +166,8 @@ public class CustomExtentReport {
                 stepNode = scenarioNode.createNode(type + "         " + stepTitle);
                 addStatus(stepNode, status, error);
                 break;
-
-
         }
     }
-//    private void addScenarioStep(ExtentTest scenarioNode, Step step, Result stepResult) {
-//        String type = step.getPrefix(); // Given, When or Then
-//        String stepTitle = step.getText();
-//        String status = stepResult.getStatus();
-//        String response = step.getDebugInfo();
-//        Throwable error = stepResult.getError();
-//        ExtentTest stepNode;
-
-//        switch (type) {
-//            case "Given":
-//                stepNode = scenarioNode.createNode(Given.class, stepTitle);
-//                addStatus(stepNode, status, error, response);
-//                break;
-//            case "When":
-//                stepNode = scenarioNode.createNode(When.class, stepTitle);
-//                addStatus(stepNode, status, error, response);
-//                break;
-//            case "Then":
-//                stepNode = scenarioNode.createNode(Then.class, stepTitle);
-//                addStatus(stepNode, status, error, response);
-//                break;
-//            case "And":
-//                stepNode = scenarioNode.createNode(And.class, stepTitle);
-//                addStatus(stepNode, status, error, response);
-//                break;
-//
-//            default:
-//                stepNode = scenarioNode.createNode(type + "         " + stepTitle);
-//                addStatus(stepNode, status, error,  response);
-//                break;
-//        }
-//    }
 
     private void addStatus(ExtentTest stepNode, String status, Throwable error) {
         switch (status) {
@@ -216,25 +183,22 @@ public class CustomExtentReport {
         }
     }
 
-//    private void addStatus(ExtentTest stepNode, String status, Throwable error , String response) {
-//        switch (status) {
-//            case "passed":
-//                stepNode.pass(response);
-//                break;
-//            case "failed":
-//                stepNode.fail(error);
-//                break;
-//            default:
-//                stepNode.skip("Skipped");
-//                break;
-//        }
-//    }
-
     private void setConfig() {
+
         extentSparkReporter.config().enableOfflineMode(true);
         extentSparkReporter.config().setDocumentTitle(reportTitle);
         extentSparkReporter.config().setTimelineEnabled(true);
         extentSparkReporter.config().setTheme(Theme.DARK);
+        extentSparkReporter.config().setTimeStampFormat("MM/dd/yyyy hh:mm:ss");
+        extentSparkReporter.viewConfigurer().viewOrder().as(
+                new ViewName[] {
+                        ViewName.DASHBOARD,
+                        ViewName.TEST,
+                        ViewName.AUTHOR,
+                        ViewName.DEVICE,
+                        ViewName.EXCEPTION,
+                        ViewName.LOG
+                }).apply();
     }
 
 }
