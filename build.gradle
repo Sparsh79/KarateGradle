@@ -6,6 +6,9 @@ plugins {
 group 'org.example'
 version '1.0-SNAPSHOT'
 
+def karateVersion='0.9.5.RC5'
+def cucumberVersion='4.8.0'
+
 repositories {
     mavenCentral()
 }
@@ -14,30 +17,36 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
     // https://mvnrepository.com/artifact/com.intuit.karate/karate-core
-    implementation group: 'com.intuit.karate', name: 'karate-core', version: '0.9.5.RC5'
+    implementation group: 'com.intuit.karate', name: 'karate-core', version: karateVersion
     // https://mvnrepository.com/artifact/com.intuit.karate/karate-apache
-    testImplementation group: 'com.intuit.karate', name: 'karate-apache', version: '0.9.5.RC5'
-    // https://mvnrepository.com/artifact/com.intuit.karate/karate-junit4
-    testImplementation group: 'com.intuit.karate', name: 'karate-junit4', version: '0.9.5.RC5'
+    testImplementation group: 'com.intuit.karate', name: 'karate-apache', version: karateVersion
+
+//     https://mvnrepository.com/artifact/com.intuit.karate/karate-junit4
+    testImplementation group: 'com.intuit.karate', name: 'karate-junit4', version: karateVersion
+
+    // https://mvnrepository.com/artifact/com.intuit.karate/karate-junit5
+//    implementation group: 'com.intuit.karate', name: 'karate-junit5', version: '0.9.5.RC5'
+
+
     // https://mvnrepository.com/artifact/io.cucumber/cucumber-java
-    implementation group: 'io.cucumber', name: 'cucumber-java', version: '4.8.0'
+    implementation group: 'io.cucumber', name: 'cucumber-java', version: cucumberVersion
     // https://mvnrepository.com/artifact/io.cucumber/cucumber-junit
-    testImplementation group: 'io.cucumber', name: 'cucumber-junit', version: '4.8.0'
+    testImplementation group: 'io.cucumber', name: 'cucumber-junit', version: cucumberVersion
     // https://mvnrepository.com/artifact/io.cucumber/cucumber-testng
-    implementation group: 'io.cucumber', name: 'cucumber-testng', version: '4.8.0'
+    implementation group: 'io.cucumber', name: 'cucumber-testng', version: cucumberVersion
     // https://mvnrepository.com/artifact/io.cucumber/gherkin
     implementation group: 'io.cucumber', name: 'gherkin', version: '5.1.0'
     implementation 'com.trivago.rta:cluecumber-report-plugin:2.7.0'
     // https://mvnrepository.com/artifact/commons-io/commons-io
     implementation group: 'commons-io', name: 'commons-io', version: '2.6'
     // https://mvnrepository.com/artifact/net.masterthought/cucumber-reporting
-    implementation group: 'net.masterthought', name: 'cucumber-reporting', version: '4.8.0'
+    implementation group: 'net.masterthought', name: 'cucumber-reporting', version: cucumberVersion
     // https://mvnrepository.com/artifact/com.trivago.rta/cucable-plugin
     implementation group: 'com.trivago.rta', name: 'cucable-plugin', version: '1.9.0'
     // https://mvnrepository.com/artifact/io.cucumber/cucumber-picocontainer
-    implementation group: 'io.cucumber', name: 'cucumber-picocontainer', version: '4.8.0'
+    implementation group: 'io.cucumber', name: 'cucumber-picocontainer', version: cucumberVersion
     // https://mvnrepository.com/artifact/com.aventstack/extentreports
-    implementation group: 'com.aventstack', name: 'extentreports', version: '5.0.4'
+    implementation group: 'com.aventstack', name: 'extentreports', version: '5.0.8'
     // https://mvnrepository.com/artifact/net.masterthought/cucumber-reporting
     implementation group: 'net.masterthought', name: 'cucumber-reporting', version: '3.8.0'
 

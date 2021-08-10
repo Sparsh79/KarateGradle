@@ -1,7 +1,6 @@
 Feature: Sample Test Feature file
 
   Background:
-#    When url 'https://reqres.in/'
     * url 'https://reqres.in/'
 
   @first @test
@@ -12,15 +11,10 @@ Feature: Sample Test Feature file
     * status 200
     * print response
     * match $.page == '#notnull'
-#    Given path 'api/users'
-#    And param page = 2
-#    When method GET
-#    Then status 200
-#    And match $.page == '#notnull'
 
   @second
   Scenario: Demo Test Scenario 2
     * path 'api/unkown'
     * method GET
-    * status 200
-    * match $.page == '#notnull'
+    * status 201
+# expected to fail
