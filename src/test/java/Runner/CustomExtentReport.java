@@ -22,7 +22,9 @@ import com.intuit.karate.core.ScenarioResult;
 import com.intuit.karate.core.Step;
 
 public class CustomExtentReport {
-    // Builder Design Pattern
+    /**
+     * This is to customize the extent report using Builder desgin pattern,
+     */
 
     private ExtentReports extentReports;
     private ExtentSparkReporter extentSparkReporter;

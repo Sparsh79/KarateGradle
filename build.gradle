@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'de.javaansehz.cluecumber-report-gradle-plugin' version "1.4.0"
+//    id 'de.javaansehz.cluecumber-report-gradle-plugin' version "1.4.0"
 }
 
 group 'org.example'
@@ -20,13 +20,8 @@ dependencies {
     implementation group: 'com.intuit.karate', name: 'karate-core', version: karateVersion
     // https://mvnrepository.com/artifact/com.intuit.karate/karate-apache
     testImplementation group: 'com.intuit.karate', name: 'karate-apache', version: karateVersion
-
-//     https://mvnrepository.com/artifact/com.intuit.karate/karate-junit4
+    // https://mvnrepository.com/artifact/com.intuit.karate/karate-junit4
     testImplementation group: 'com.intuit.karate', name: 'karate-junit4', version: karateVersion
-
-    // https://mvnrepository.com/artifact/com.intuit.karate/karate-junit5
-//    implementation group: 'com.intuit.karate', name: 'karate-junit5', version: '0.9.5.RC5'
-
 
     // https://mvnrepository.com/artifact/io.cucumber/cucumber-java
     implementation group: 'io.cucumber', name: 'cucumber-java', version: cucumberVersion
@@ -34,17 +29,17 @@ dependencies {
     testImplementation group: 'io.cucumber', name: 'cucumber-junit', version: cucumberVersion
     // https://mvnrepository.com/artifact/io.cucumber/cucumber-testng
     implementation group: 'io.cucumber', name: 'cucumber-testng', version: cucumberVersion
-    // https://mvnrepository.com/artifact/io.cucumber/gherkin
-    implementation group: 'io.cucumber', name: 'gherkin', version: '5.1.0'
-    implementation 'com.trivago.rta:cluecumber-report-plugin:2.7.0'
-    // https://mvnrepository.com/artifact/commons-io/commons-io
-    implementation group: 'commons-io', name: 'commons-io', version: '2.6'
     // https://mvnrepository.com/artifact/net.masterthought/cucumber-reporting
     implementation group: 'net.masterthought', name: 'cucumber-reporting', version: cucumberVersion
-    // https://mvnrepository.com/artifact/com.trivago.rta/cucable-plugin
-    implementation group: 'com.trivago.rta', name: 'cucable-plugin', version: '1.9.0'
     // https://mvnrepository.com/artifact/io.cucumber/cucumber-picocontainer
     implementation group: 'io.cucumber', name: 'cucumber-picocontainer', version: cucumberVersion
+
+    // https://mvnrepository.com/artifact/io.cucumber/gherkin
+    implementation group: 'io.cucumber', name: 'gherkin', version: '5.1.0'
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+    implementation group: 'commons-io', name: 'commons-io', version: '2.6'
+    // https://mvnrepository.com/artifact/com.trivago.rta/cucable-plugin
+    implementation group: 'com.trivago.rta', name: 'cucable-plugin', version: '1.9.0'
     // https://mvnrepository.com/artifact/com.aventstack/extentreports
     implementation group: 'com.aventstack', name: 'extentreports', version: '5.0.8'
     // https://mvnrepository.com/artifact/net.masterthought/cucumber-reporting
@@ -62,11 +57,16 @@ sourceSets {
 }
 
 test {
+    //pulls karate options into run time.
     systemProperty "karate.options", System.properties.getProperty("karate.options")
     systemProperty "karate.env", System.properties.getProperty("karate.env")
     outputs.upToDateWhen { false }
 
 }
+
+/*
+This is to generate the cluecumber report. However, the cluemcuber will throw the error for Step Definition.
+We just need to execute the cucumber() task mentioned below. The report will get generated but it will skip all the test.
 
 configurations {
     cucumberRuntime {
@@ -92,3 +92,4 @@ cluecumberReports {
     sourceJsonReportDirectory = "${buildDir}/reports"
     generatedHtmlReportDirectory = "${buildDir}/cluecumber-reports"
 }
+ */
